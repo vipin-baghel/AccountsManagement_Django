@@ -12,7 +12,7 @@ admin.site.register(Project, ProjectAdmin)
 
 
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ("transaction_type", "amount", "date", "description")
+    list_display = ("transaction_type", "amount", "date", "expense_type", "description")
     list_filter = ("transaction_type",)
     search_fields = ("description",)
 
