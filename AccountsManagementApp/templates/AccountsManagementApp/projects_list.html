@@ -1,0 +1,37 @@
+<!-- project_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Project List</h1>
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.name }}</h5>
+                        <p class="card-text">{{ project.description }}</p>
+                        <p class="card-text"><small class="text-muted">Status: {{ project.get_status_display }}</small>
+                        </p>
+                        <p class="card-text"><small class="text-muted">Start Date: {{ project.start_date }}</small></p>
+                        <p class="card-text"><small class="text-muted">End Date: {{ project.end_date }}</small></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
