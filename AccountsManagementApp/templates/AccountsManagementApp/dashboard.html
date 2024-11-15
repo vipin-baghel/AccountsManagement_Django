@@ -11,31 +11,24 @@
 
 <body>
     <div class="container mt-4">
-        <h1 class="mb-4">Dashboard</h1>
+        <h1 class="mb-4">Reports</h1>
         <!-- Summary Widgets -->
         <div class="row">
             <div class="col-md-6">
-                <div class="card text-white bg-primary mb-3">
+                <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">On Going Projects</h5>
-                        {% for project in ongoing_projects %}
-
-                        <p class="card-text">{{ project.name }}</p>
-
-                        {% endfor %}
+                        <h5 class="card-title">This Month</h5>
+                        <p class="card-text">Revenue: {{ revenue_this_month }}</p>
+                        <p class="card-text">Expense: {{ expense_this_month }}</p>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6">
-                <div class="card text-white bg-success mb-3">
+                <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">Upcoming Projects</h5>
-                        {% for project in upcoming_projects %}
-
-                        <p class="card-text">{{ project.name }}</p>
-
-                        {% endfor %}
+                        <h5 class="card-title">This Year</h5>
+                        <p class="card-text">Revenue: {{ revenue_this_year }}</p>
+                        <p class="card-text">Expense: {{ expense_this_year }}</p>
                     </div>
                 </div>
             </div>
