@@ -1,17 +1,17 @@
 from django.contrib import admin
-
+from unfold.admin import ModelAdmin
 from .models.Project import Project
 from .models.Transaction import Transaction
 
 
-class ProjectAdmin(admin.ModelAdmin):
+class ProjectAdmin(ModelAdmin):
     list_display = ["name", "description", "status"]
 
 
 admin.site.register(Project, ProjectAdmin)
 
 
-class TransactionAdmin(admin.ModelAdmin):
+class TransactionAdmin(ModelAdmin):
     list_display = ("transaction_type", "amount", "date", "expense_type", "description")
     list_filter = ("transaction_type",)
     search_fields = ("description",)

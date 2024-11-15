@@ -129,5 +129,6 @@ UNFOLD = {
     "INSTALLED_APPS": [
         "unfold",
     ],
+    "SITE_HEADER": "Accounts Management",
     "UNFOLD_THEME": "default",  # You can choose different themes available
 }
