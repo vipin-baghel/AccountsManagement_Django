@@ -1,5 +1,6 @@
 import factory
 from faker import Faker
+from datetime import datetime
 from AccountsManagementApp.models.Project import Project
 
 fake = Faker()
@@ -11,6 +12,16 @@ class ProjectFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence("Project{0}".format)
     description = fake.text()
-    start_date = fake.date()
-    end_date = fake.date()
-    status = factory.Iterator(Project.PROJECT_STATUS, cycle=True)
+    start_date = fake.date_between(
+        start_date=datetime(2023, 1, 1), end_date=datetime(2023, 12, 31)
+    )
+    status = factory.Iterator(["upcoming", "ongoing", "complete"], cycle=True)
+    end_date = factory.LazyAttribute(
+        lambda project: (
+            fake.date_between(
+                start_date=datetime(2024, 1, 1), end_date=datetime.now().date()
+            )
+            if project.status == "complete"
+            else None
+        )
+    )
