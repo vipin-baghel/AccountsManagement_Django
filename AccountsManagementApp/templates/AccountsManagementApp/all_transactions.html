@@ -12,7 +12,34 @@
 
 <body>
     <div class="container mt-4">
-        <h1 class="mb-4">All Transactions</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">All Transactions</h1>
+            <a href="{% url 'dashboard' %}" class="btn bt-secondary">Go to Dashboard</a>
+        </div>
+        <!-- Add filter form -->
+        <form method="get">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="project">Project:</label>
+                    <select id="project" name="project" class="form-control">
+                        <option value="">All Projects</option>
+                        {% for project in projects %}
+                        <option value="{{ project.id }}">{{ project.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" id="start_date" name="start_date" class="form-control">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="end_date">End Date:</label>
+                    <input type="date" id="end_date" name="end_date" class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+        <!-- Transaction table -->
         <table class="table table-striped">
             <thead>
                 <tr>
