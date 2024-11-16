@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Transaction(models.Model):
@@ -28,3 +29,7 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.transaction_type} : {self.amount}"
+
+    def clean(self):
+        if self.transaction_type == "income" and self.expense_type is not None:
+            raise ValidationError("Expense type cannot be set for income transactions")
