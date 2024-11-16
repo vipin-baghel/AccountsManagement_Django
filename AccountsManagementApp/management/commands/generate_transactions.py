@@ -5,4 +5,5 @@ from AccountsManagementApp.factories.transaction_factory import TransactionFacto
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        TransactionFactory.create_batch(10)
+        TransactionFactory.create_batch(100)
+        self.stdout.write("Transactions created")
