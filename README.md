@@ -1,6 +1,6 @@
 # Accounts Management App
 
-A Django-based project for managing finance of a small-medium enterprize.
+A Django-based project for managing finance of a small-medium enterprise.
 
 ## Overview
 
