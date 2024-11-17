@@ -22,8 +22,17 @@ class DashboardView(View):
             day=1
         ) - timedelta(days=1)
 
-        this_year_start = datetime.now().replace(month=1, day=1)
-        this_year_end = datetime.now().replace(month=12, day=31)
+        current_date = datetime.now()
+        if current_date.month < 4:
+            this_year_start = (current_date - relativedelta(years=1)).replace(
+                month=4, day=1
+            )
+            this_year_end = current_date.replace(month=3, day=31)
+        else:
+            this_year_start = current_date.replace(month=4, day=1)
+            this_year_end = (current_date + relativedelta(years=1)).replace(
+                month=3, day=31
+            )
 
         revenue_this_month = (
             Transaction.objects.filter(

@@ -11,7 +11,10 @@
 
 <body>
     <div class="container mt-4">
-        <h1 class="mb-4">Dashboard</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">Dashboard</h1>
+            <a href="{% url 'admin:index' %}" class="btn bt-secondary">Go to Admin Panel</a>
+        </div>
         <!-- Summary Widgets -->
         <div class="row">
             <div class="col-md-6">
@@ -26,7 +29,10 @@
             <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">This Year</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">This Financial Year</h5>
+                            <a href="{% url 'all_transactions' %}" class="btn bt-secondary">View Detailed Report</a>
+                        </div>
                         <p class="card-text">Revenue: {{ revenue_this_year }}</p>
                         <p class="card-text">Expense: {{ expense_this_year }}</p>
                     </div>
