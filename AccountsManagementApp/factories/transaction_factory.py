@@ -26,7 +26,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute
     def income_expense_type(self):
-        if self.transaction_type == "income":
+        if self.transaction_type == "Income":
             return fake.random_element(
                 elements=[
                     "Cash",
