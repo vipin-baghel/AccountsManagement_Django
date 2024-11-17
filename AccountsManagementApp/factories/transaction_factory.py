@@ -11,7 +11,9 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Transaction
 
-    transaction_type = factory.Iterator(["income", "expense"], cycle=True)
+    transaction_type = factory.LazyAttribute(
+        lambda x: fake.random_element(elements=("Income", "Expense"))
+    )
     amount = factory.Faker("pyint", min_value=10000, max_value=100000)
     project = factory.Iterator(Project.objects.all())
 

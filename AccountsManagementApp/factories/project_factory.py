@@ -15,7 +15,7 @@ class ProjectFactory(factory.django.DjangoModelFactory):
     start_date = fake.date_between(
         start_date=datetime(2023, 1, 1), end_date=datetime(2023, 12, 31)
     )
-    status = factory.Iterator(["upcoming", "ongoing", "complete"], cycle=True)
+    status = factory.Iterator(["upcoming", "ongoing", "completed"], cycle=True)
     end_date = factory.LazyAttribute(
         lambda project: (
             fake.date_between(

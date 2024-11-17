@@ -1,43 +1,31 @@
 {% extends 'AccountsManagementApp/base.html' %}
 
 {% block content %}
-<h1>Financial Reports</h1>
 
-<h2>Account Income and Expense</h2>
-<table>
+
+<!-- Reports table -->
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Account</th>
+            <th>Project</th>
             <th>Income</th>
-            <th>Expense</th>
+            <th>Expenses</th>
+            <th>Profit</th>
         </tr>
     </thead>
     <tbody>
-        {% for account, income in account_income.items %}
+        {% load report_tags %}
+
+        {% for project in projects %}
         <tr>
-            <td>{{ account }}</td>
-            <td>{{ income }}</td>
-            <td>{{ account_expense[account] }}</td>
+            <td>{{ project.name }}</td>
+            <td>{{ project|get_income }}</td>
+            <td>{{ project|get_expenses }}</td>
+            <td>{{ project|get_profit }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<h2>Account Balance</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Account</th>
-            <th>Balance</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for account, balance in account_balance.items %}
-        <tr>
-            <td>{{ account }}</td>
-            <td>{{ balance }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+
 {% endblock %}

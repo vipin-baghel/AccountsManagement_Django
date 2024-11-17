@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",
     "AccountsManagementApp",
 ]
 
@@ -132,3 +133,6 @@ UNFOLD = {
     "SITE_HEADER": "Accounts Management",
     "UNFOLD_THEME": "default",  # You can choose different themes available
 }
+
+
+USE_THOUSAND_SEPARATOR = True

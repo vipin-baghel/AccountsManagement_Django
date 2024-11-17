@@ -38,7 +38,7 @@ class DashboardView(View):
             Transaction.objects.filter(
                 date__gte=this_month_start,
                 date__lte=this_month_end,
-                transaction_type="income",
+                transaction_type="Income",
             ).aggregate(total_amount=Sum("amount"))["total_amount"]
             or 0
         )
@@ -47,7 +47,7 @@ class DashboardView(View):
             Transaction.objects.filter(
                 date__gte=this_month_start,
                 date__lte=this_month_end,
-                transaction_type="expense",
+                transaction_type="Expense",
             ).aggregate(total_amount=Sum("amount"))["total_amount"]
             or 0
         )
@@ -56,7 +56,7 @@ class DashboardView(View):
             Transaction.objects.filter(
                 date__gte=this_year_start,
                 date__lte=this_year_end,
-                transaction_type="income",
+                transaction_type="Income",
             ).aggregate(total_amount=Sum("amount"))["total_amount"]
             or 0
         )
@@ -65,7 +65,7 @@ class DashboardView(View):
             Transaction.objects.filter(
                 date__gte=this_year_start,
                 date__lte=this_year_end,
-                transaction_type="expense",
+                transaction_type="Expense",
             ).aggregate(total_amount=Sum("amount"))["total_amount"]
             or 0
         )

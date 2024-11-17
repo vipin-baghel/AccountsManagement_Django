@@ -14,6 +14,7 @@ admin.site.register(Project, ProjectAdmin)
 
 class TransactionAdmin(ModelAdmin):
     list_display = (
+        "project",
         "transaction_type",
         "amount",
         "date",
