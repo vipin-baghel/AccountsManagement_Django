@@ -1,0 +1,43 @@
+{% extends 'AccountsManagementApp/base.html' %}
+
+{% block content %}
+<h1>Financial Reports</h1>
+
+<h2>Account Income and Expense</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Account</th>
+            <th>Income</th>
+            <th>Expense</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for account, income in account_income.items %}
+        <tr>
+            <td>{{ account }}</td>
+            <td>{{ income }}</td>
+            <td>{{ account_expense[account] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Account Balance</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Account</th>
+            <th>Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for account, balance in account_balance.items %}
+        <tr>
+            <td>{{ account }}</td>
+            <td>{{ balance }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

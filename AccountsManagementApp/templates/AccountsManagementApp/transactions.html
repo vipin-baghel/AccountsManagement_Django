@@ -1,0 +1,56 @@
+{% extends 'AccountsManagementApp/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- Add filter form -->
+    <form method="get">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="project" class="form-label">Project:</label>
+                <select id="project" name="project" class="form-select">
+                    <option value="">All Projects</option>
+                    {% for project in projects %}
+                    <option value="{{ project.id }}">{{ project.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="start_date" class="form-label">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label for="end_date" class="form-label">End Date:</label>
+                <input type="date" id="end_date" name="end_date" class="form-control">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2 mb-2">Filter</button>
+    </form>
+    <!-- Transaction table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Income/Expense Type</th>
+                <th>Project</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.date }}</td>
+                <td>{{ transaction.get_transaction_type_display }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.income_expense_type }}</td>
+                <td>{{ transaction.project.name }}</td>
+                <td>{{ transaction.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

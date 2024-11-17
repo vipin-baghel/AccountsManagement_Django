@@ -26,6 +26,6 @@ class AllTransactionsView(View):
         # Render the template with the filtered transactions
         return render(
             request,
-            "AccountsManagementApp/all_transactions.html",
+            "AccountsManagementApp/transactions.html",
             {"transactions": transactions, "projects": projects},
         )
