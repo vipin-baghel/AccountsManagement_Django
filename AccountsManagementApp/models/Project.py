@@ -12,9 +12,11 @@ class Project(models.Model):
     ]
     status = models.CharField(max_length=10, choices=PROJECT_STATUS)
     name = models.CharField(max_length=50)
-    description = models.TextField(null=True, blank=True)
+
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+
+    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} : {self.status}"

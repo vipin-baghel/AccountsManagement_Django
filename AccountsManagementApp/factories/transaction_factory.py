@@ -12,7 +12,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         model = Transaction
 
     transaction_type = factory.Iterator(["income", "expense"], cycle=True)
-    amount = factory.Faker("pyint", min_value=1, max_value=100000)
+    amount = factory.Faker("pyint", min_value=10000, max_value=100000)
     project = factory.Iterator(Project.objects.all())
 
     @factory.lazy_attribute
@@ -23,9 +23,15 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         return fake.date_between(start_date=self.project.start_date, end_date=end_date)
 
     @factory.lazy_attribute
-    def expense_type(self):
+    def income_expense_type(self):
         if self.transaction_type == "income":
-            return None
+            return fake.random_element(
+                elements=[
+                    "Cash",
+                    "Digital",
+                    "Cheque",
+                ]
+            )
         else:
             return fake.random_element(
                 elements=[

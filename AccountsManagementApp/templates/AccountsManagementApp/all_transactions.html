@@ -46,7 +46,7 @@
                     <th>Date</th>
                     <th>Type</th>
                     <th>Amount</th>
-                    <th>Expense Type</th>
+                    <th>Income/Expense Type</th>
                     <th>Project</th>
                     <th>Description</th>
                 </tr>
@@ -57,7 +57,7 @@
                     <td>{{ transaction.date }}</td>
                     <td>{{ transaction.get_transaction_type_display }}</td>
                     <td>{{ transaction.amount }}</td>
-                    <td>{{ transaction.expense_type }}</td>
+                    <td>{{ transaction.income_expense_type }}</td>
                     <td>{{ transaction.project.name }}</td>
                     <td>{{ transaction.description }}</td>
                 </tr>
