@@ -1,7 +1,7 @@
 import factory
 from faker import Faker
 from datetime import datetime
-from AccountsManagementApp.models.Project import Project
+from ..models.Project import Project
 
 fake = Faker()
 

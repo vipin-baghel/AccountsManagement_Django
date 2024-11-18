@@ -1,7 +1,7 @@
 # management/commands/delete_data.py
 from django.core.management.base import BaseCommand
-from AccountsManagementApp.models.Project import Project
-from AccountsManagementApp.models.Transaction import Transaction
+from ...models.Project import Project
+from ...models.Transaction import Transaction
 
 
 class Command(BaseCommand):

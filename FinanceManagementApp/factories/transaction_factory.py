@@ -22,7 +22,10 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         end_date = (
             self.project.end_date if self.project.end_date else datetime.now().date()
         )
-        return fake.date_between(start_date=self.project.start_date, end_date=end_date)
+        return fake.date_between(
+            start_date=self.project.start_date,
+            end_date=max(self.project.start_date, end_date),
+        )
 
     @factory.lazy_attribute
     def income_expense_type(self):

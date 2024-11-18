@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views import View
 
-from AccountsManagementApp.models.Transaction import Transaction
-from AccountsManagementApp.models.Project import Project
+from ..models.Transaction import Transaction
+from ..models.Project import Project
 
 
 class AllTransactionsView(View):
@@ -26,6 +26,6 @@ class AllTransactionsView(View):
         # Render the template with the filtered transactions
         return render(
             request,
-            "AccountsManagementApp/transactions.html",
+            "FinanceManagementApp/transactions.html",
             {"transactions": transactions, "projects": projects},
         )

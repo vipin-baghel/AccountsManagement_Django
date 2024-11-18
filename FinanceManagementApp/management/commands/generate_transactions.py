@@ -1,6 +1,6 @@
 # management/commands/generate_transactions.py
 from django.core.management.base import BaseCommand
-from AccountsManagementApp.factories.transaction_factory import TransactionFactory
+from ...factories.transaction_factory import TransactionFactory
 
 
 class Command(BaseCommand):

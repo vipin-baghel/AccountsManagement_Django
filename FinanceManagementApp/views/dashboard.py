@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views import View
 from dateutil.relativedelta import relativedelta
 from django.db.models import Sum
-from AccountsManagementApp.models.Transaction import Transaction
+from ..models.Transaction import Transaction
 
 
 class DashboardView(View):
@@ -72,7 +72,7 @@ class DashboardView(View):
 
         return render(
             request,
-            "AccountsManagementApp/dashboard.html",
+            "FinanceManagementApp/dashboard.html",
             {
                 "revenue_this_month": revenue_this_month,
                 "expense_this_month": expense_this_month,
