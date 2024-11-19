@@ -1,3 +1,4 @@
 django
 django-unfold
 factory-boy
+plotly

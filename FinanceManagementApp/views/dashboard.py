@@ -3,8 +3,9 @@ from datetime import datetime, timedelta
 from django.shortcuts import render
 from django.views import View
 from dateutil.relativedelta import relativedelta
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from ..models.Transaction import Transaction
+import plotly.graph_objs as go
 
 
 class DashboardView(View):
@@ -70,6 +71,44 @@ class DashboardView(View):
             or 0
         )
 
+        # Get project-wise income and expense data, 5 most recent by start date
+        project_data = (
+            Transaction.objects.values("project__name")
+            .annotate(
+                income=Sum("amount", filter=Q(transaction_type="Income")),
+                expense=Sum("amount", filter=Q(transaction_type="Expense")),
+            )
+            .order_by("project__start_date")
+            .reverse()[:5]
+        )
+
+        # Create a Plotly figure
+        fig = go.Figure(
+            data=[
+                go.Bar(
+                    name="Income",
+                    x=[data["project__name"] for data in project_data],
+                    y=[data["income"] for data in project_data],
+                    text=[f"{data['income']:,}" for data in project_data],
+                    textposition="auto",
+                ),
+                go.Bar(
+                    name="Expense",
+                    x=[data["project__name"] for data in project_data],
+                    y=[data["expense"] for data in project_data],
+                    text=[f"{data['expense']:,}" for data in project_data],
+                    textposition="auto",
+                ),
+            ]
+        )
+
+        # Update the layout
+        fig.update_layout(barmode="group")
+
+        # Convert the figure to HTML
+        graph_html = fig.to_html(include_plotlyjs="cdn")
+
+        # Render the dashboard template
         return render(
             request,
             "FinanceManagementApp/dashboard.html",
@@ -79,5 +118,6 @@ class DashboardView(View):
                 "revenue_this_year": revenue_this_year,
                 "expense_this_year": expense_this_year,
                 "recent_transactions": recent_transactions,
+                "graph_html": graph_html,
             },
         )
