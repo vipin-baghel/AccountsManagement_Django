@@ -2,36 +2,26 @@
 
 {% block content %}
 <div class="container mt-2">
-
-    <!-- Summary Widgets -->
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">This Month</h5>
-                    <p class="card-text">Revenue: {{ revenue_this_month }}</p>
-                    <p class="card-text">Expense: {{ expense_this_month }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">This Financial Year</h5>
-                    <p class="card-text">Revenue: {{ revenue_this_year }}</p>
-                    <p class="card-text">Expense: {{ expense_this_year }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="card mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="mb-0">Financials Visualized</h1>
                     <a href="{% url 'reports' %}" class="btn bt-secondary">View Detailed Reports</a>
             </div>
-            {{ graph_html|safe }}
+            <div class="row">
+                <div class="col-md-6">
+
+                    {{ graph_html_this_month|safe }}
+
+                </div>
+                <div class="col-md-6">
+
+                    {{ graph_html_this_year|safe }}
+
+                </div>
+            </div>
+
+            {{ graph_html_project_wise|safe }}
         </div>
     </div>
 
