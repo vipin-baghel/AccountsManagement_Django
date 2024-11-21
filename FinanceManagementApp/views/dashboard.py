@@ -18,6 +18,7 @@ class DashboardView(View):
             "-date"
         )[:10]
 
+        # date calculations relative to now
         this_month_start = datetime.now().replace(day=1)
         this_month_end = (datetime.now() + relativedelta(months=1)).replace(
             day=1
@@ -35,6 +36,7 @@ class DashboardView(View):
                 month=3, day=31
             )
 
+        #####################################################################
         # Calculate this month's revenue, expense, and profit
         this_month_revenue = (
             Transaction.objects.filter(
@@ -44,7 +46,6 @@ class DashboardView(View):
             ).aggregate(total_amount=Sum("amount"))["total_amount"]
             or 0
         )
-
         this_month_expense = (
             Transaction.objects.filter(
                 date__gte=this_month_start,
@@ -53,9 +54,7 @@ class DashboardView(View):
             ).aggregate(total_amount=Sum("amount"))["total_amount"]
             or 0
         )
-
         this_month_profit = this_month_revenue - this_month_expense
-
         # Create a Plotly figure for this month's revenue, expense, and profit
         fig_this_month = go.Figure(
             data=[
@@ -86,10 +85,10 @@ class DashboardView(View):
         fig_this_month.update_layout(
             title="This Month's Revenue, Expense, and Profit", barmode="group"
         )
-
         # Convert the figure to HTML
         graph_html_this_month = fig_this_month.to_html(include_plotlyjs="cdn")
 
+        #####################################################################
         # Calculate this financial year's revenue, expense, and profit
         this_year_revenue = (
             Transaction.objects.filter(
@@ -108,9 +107,7 @@ class DashboardView(View):
             ).aggregate(total_amount=Sum("amount"))["total_amount"]
             or 0
         )
-
         this_year_profit = this_year_revenue - this_year_expense
-
         # Create a Plotly figure
         fig_this_year = go.Figure(
             data=[
@@ -137,15 +134,14 @@ class DashboardView(View):
                 ),
             ]
         )
-
         # Update the layout
         fig_this_year.update_layout(
             title="This Financial Year's Revenue, Expense, and Profit", barmode="group"
         )
-
         # Convert the figure to HTML
         graph_html_this_year = fig_this_year.to_html(include_plotlyjs="cdn")
 
+        #####################################################################
         # Get project-wise income and expense data, 5 most recent by start date
         project_data = (
             Transaction.objects.values("project__name")
@@ -156,10 +152,8 @@ class DashboardView(View):
             .order_by("project__start_date")
             .reverse()[:5]
         )
-
         #  list to store profit values
         profit = [data["income"] - data["expense"] for data in project_data]
-
         # Create a Plotly figure for project-wise income, expense, and profit
         fig = go.Figure(
             data=[
@@ -186,15 +180,15 @@ class DashboardView(View):
                 ),
             ]
         )
-
         # Update the layout
         fig.update_layout(
-            title="Project-wise Income, Expense, and Profit", barmode="group"
+            title="Revenue, Expense, and Profit report for Recent projects",
+            barmode="group",
         )
-
         # Convert the figure to HTML
         graph_html_project_wise = fig.to_html(include_plotlyjs="cdn")
 
+        ###############################
         # Render the dashboard template
         return render(
             request,
