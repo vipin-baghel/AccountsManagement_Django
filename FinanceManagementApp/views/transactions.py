@@ -1,14 +1,15 @@
-from django.shortcuts import render
-from django.views import View
-
 from ..models.Transaction import Transaction
 from ..models.Project import Project
 
+from django.views.generic import TemplateView
 
-class AllTransactionsView(View):
-    def get(self, request):
+
+class AllTransactionsView(TemplateView):
+    template_name = "FinanceManagementApp/transactions.html"
+
+    def get_transactions(self, request):
+
         transactions = Transaction.objects.all().order_by("-date")
-        projects = Project.objects.all()
 
         # Get filter parameters from the request
         project_id = request.GET.get("project")
@@ -23,9 +24,15 @@ class AllTransactionsView(View):
         if end_date:
             transactions = transactions.filter(date__lte=end_date)
 
-        # Render the template with the filtered transactions
-        return render(
-            request,
-            "FinanceManagementApp/transactions.html",
-            {"transactions": transactions, "projects": projects},
-        )
+        # Return the filtered transactions
+        return transactions
+
+    def get_projects(self):
+        # Return the projects
+        return Project.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["transactions"] = self.get_transactions(request=self.request)
+        context["projects"] = self.get_projects()
+        return context

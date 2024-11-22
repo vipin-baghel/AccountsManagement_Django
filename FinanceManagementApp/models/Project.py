@@ -4,6 +4,7 @@ from django.db.models.expressions import Q
 from django.core.exceptions import ValidationError
 
 
+# Project model
 class Project(models.Model):
     PROJECT_STATUS = [
         ("upcoming", "UPCOMING"),
@@ -21,6 +22,7 @@ class Project(models.Model):
     def __str__(self):
         return f"{self.name} : {self.status}"
 
+    # Custom validations
     def clean(self):
         if self.start_date and self.end_date and self.end_date < self.start_date:
             raise ValidationError("End date cannot be less than start date")

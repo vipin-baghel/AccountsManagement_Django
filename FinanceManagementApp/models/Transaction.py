@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 
+# Transaction model
 class Transaction(models.Model):
     TRANSACTION_TYPES = [
         ("Income", "Income"),
@@ -31,9 +32,11 @@ class Transaction(models.Model):
     date = models.DateField()
     description = models.TextField(null=True, blank=True)
 
+    # Return a string representation of the transaction.
     def __str__(self):
         return f"{self.transaction_type} : {self.amount}"
 
+    # Validate the transaction before saving.
     def clean(self):
         if self.transaction_type == "Expense":
             if self.income_expense_type not in [t[0] for t in self.EXPENSE_TYPES]:
