@@ -11,7 +11,7 @@ FINANCIAL_YEAR_END_MONTH = 3
 
 class ReportsView(TemplateView):
     """
-    A view that displays the dashboard.
+    A view that displays various reports.
     """
 
     template_name = "FinanceManagementApp/reports.html"

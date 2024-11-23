@@ -20,9 +20,11 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context["recent_transactions"] = Transaction.objects.select_related(
-            "project"
-        ).order_by("-date")[:RECENT_TRANSACTIONS_LIMIT]
+        context["recent_transactions"] = (
+            Transaction.objects.prefetch_related("project")
+            .select_related("project")
+            .order_by("-date")[:RECENT_TRANSACTIONS_LIMIT]
+        )
 
         current_datetime = datetime.now()
 
