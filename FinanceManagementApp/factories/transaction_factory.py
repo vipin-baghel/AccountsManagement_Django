@@ -16,6 +16,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     )
     amount = factory.Faker("pyint", min_value=10000, max_value=100000)
     project = factory.Iterator(Project.objects.all())
+    description = fake.text(length=20)
 
     @factory.lazy_attribute
     def date(self):
