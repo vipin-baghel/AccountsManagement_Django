@@ -40,6 +40,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CSRF_TRUSTED_ORIGINS = ["https://financemanagement-django.onrender.com"]
+
 ROOT_URLCONF = "FinanceManagementProject.urls"
 
 TEMPLATES = [
