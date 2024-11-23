@@ -5,6 +5,10 @@ from django.views.generic import TemplateView
 
 
 class AllTransactionsView(TemplateView):
+    """
+    A view for displaying all transactions.
+    """
+
     template_name = "FinanceManagementApp/transactions.html"
 
     def get_transactions(self, request):

@@ -26,17 +26,14 @@ class DashboardView(TemplateView):
 
         current_datetime = datetime.now()
 
-        this_month_start, this_month_end = self.get_this_month_dates(current_datetime)
-        this_year_start, this_year_end = self.get_financial_year_dates(current_datetime)
-
         context["graph_html_project_wise"] = self.generate_graph_project_wise()
 
         context["graph_html_this_month"] = self.generate_graph_this_month(
-            this_month_start, this_month_end
+            current_datetime
         )
 
         context["graph_html_this_year"] = self.generate_graph_this_year(
-            this_year_start, this_year_end
+            current_datetime
         )
 
         return context
@@ -61,8 +58,10 @@ class DashboardView(TemplateView):
             )
         return this_year_start, this_year_end
 
-    def generate_graph_this_month(self, this_month_start, this_month_end):
-        # Plot this month's revenue, expense, and profit
+    def generate_graph_this_month(self, current_datetime):
+        """Plot this month's revenue, expense, and profit"""
+
+        this_month_start, this_month_end = self.get_this_month_dates(current_datetime)
 
         this_month_revenue = (
             Transaction.objects.filter(
@@ -117,8 +116,10 @@ class DashboardView(TemplateView):
 
         return graph_html_this_month
 
-    def generate_graph_this_year(self, this_year_start, this_year_end):
-        # Plot this financial year's revenue, expense, and profit
+    def generate_graph_this_year(self, current_datetime):
+        """Plot this financial year's revenue, expense, and profit"""
+
+        this_year_start, this_year_end = self.get_financial_year_dates(current_datetime)
 
         this_year_revenue = (
             Transaction.objects.filter(

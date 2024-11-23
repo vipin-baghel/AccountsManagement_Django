@@ -1,26 +1,54 @@
-from django.shortcuts import render
-from django.views import View
 from datetime import datetime
 from ..models.Transaction import Transaction
 from django.db.models import Sum, Q
 import plotly.graph_objs as go
 from dateutil.relativedelta import relativedelta
+from django.views.generic import TemplateView
+
+FINANCIAL_YEAR_START_MONTH = 4
+FINANCIAL_YEAR_END_MONTH = 3
 
 
-class ReportsView(View):
-    def get(self, request):
+class ReportsView(TemplateView):
+    """
+    A view that displays the dashboard.
+    """
 
-        current_date = datetime.now()
-        if current_date.month < 4:
-            this_year_start = (current_date - relativedelta(years=1)).replace(
-                month=4, day=1
+    template_name = "FinanceManagementApp/reports.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        this_year_start, this_year_end = self.get_financial_year_dates(datetime.now())
+
+        context["graph_html_project_wise"] = self.generate_graph_project_wise()
+
+        context["graph_html_this_year_expense"] = self.generate_graph_this_year_expense(
+            this_year_start, this_year_end
+        )
+
+        context["graph_html_this_year_income"] = self.generate_graph_this_year_income(
+            this_year_start, this_year_end
+        )
+
+        return context
+
+    def get_financial_year_dates(self, now: datetime) -> tuple:
+        if now.month < FINANCIAL_YEAR_START_MONTH:
+            this_year_start = (now - relativedelta(years=1)).replace(
+                month=FINANCIAL_YEAR_START_MONTH, day=1
             )
-            this_year_end = current_date.replace(month=3, day=31)
+            this_year_end = now.replace(month=FINANCIAL_YEAR_END_MONTH, day=31)
         else:
-            this_year_start = current_date.replace(month=4, day=1)
-            this_year_end = (current_date + relativedelta(years=1)).replace(
-                month=3, day=31
+            this_year_start = now.replace(month=FINANCIAL_YEAR_START_MONTH, day=1)
+            this_year_end = (now + relativedelta(years=1)).replace(
+                month=FINANCIAL_YEAR_END_MONTH, day=31
             )
+        return this_year_start, this_year_end
+
+    def generate_graph_this_year_expense(self, this_year_start, this_year_end):
+        """Plot this financial year's expense"""
+
         this_year_expense = (
             Transaction.objects.filter(
                 date__gte=this_year_start,
@@ -32,7 +60,31 @@ class ReportsView(View):
         )
         total_expense_amount = sum(item["total_amount"] for item in this_year_expense)
 
-        # Create a Plotly figure for this year's income
+        fig = go.Figure(
+            data=[
+                go.Pie(
+                    labels=[data["income_expense_type"] for data in this_year_expense],
+                    values=[data["total_amount"] for data in this_year_expense],
+                    textinfo="label+percent",
+                    textposition="auto",
+                    hoverinfo="text",
+                    hovertext=[
+                        f"{data['total_amount']:,}" for data in this_year_expense
+                    ],
+                )
+            ]
+        )
+
+        fig.update_layout(
+            title=f"This Year's Expenses (Total: {total_expense_amount:,})",
+        )
+
+        this_year_expense_html = fig.to_html(include_plotlyjs="cdn")
+
+        return this_year_expense_html
+
+    def generate_graph_this_year_income(self, this_year_start, this_year_end):
+        """Plot this financial year's income"""
         this_year_income = (
             Transaction.objects.filter(
                 date__gte=this_year_start,
@@ -66,38 +118,18 @@ class ReportsView(View):
 
         this_year_income_html = fig_income.to_html(include_plotlyjs="cdn")
 
-        # Create a Plotly figure for this year's expense
-        fig = go.Figure(
-            data=[
-                go.Pie(
-                    labels=[data["income_expense_type"] for data in this_year_expense],
-                    values=[data["total_amount"] for data in this_year_expense],
-                    textinfo="label+percent",
-                    textposition="auto",
-                    hoverinfo="text",
-                    hovertext=[
-                        f"{data['total_amount']:,}" for data in this_year_expense
-                    ],
-                )
-            ]
-        )
+        return this_year_income_html
 
-        # Update the layout
-        fig.update_layout(
-            title=f"This Year's Expenses (Total: {total_expense_amount:,})",
-        )
-        # Convert the figure to HTML
-        this_year_expense_html = fig.to_html(include_plotlyjs="cdn")
+    def generate_graph_project_wise(self):
+        """Plot project-wise income and expense data"""
 
-        #####################################################################
-        # Get project-wise income and expense data
         project_data = Transaction.objects.values("project__name").annotate(
             income=Sum("amount", filter=Q(transaction_type="Income")),
             expense=Sum("amount", filter=Q(transaction_type="Expense")),
         )
-        #  list to store profit values
+
         profit = [data["income"] - data["expense"] for data in project_data]
-        # Create a Plotly figure for project-wise income, expense, and profit
+
         fig = go.Figure(
             data=[
                 go.Bar(
@@ -126,7 +158,7 @@ class ReportsView(View):
                 ),
             ]
         )
-        # Update the layout
+
         fig.update_layout(
             title="Report for All Projects",
             xaxis_title="Amount",
@@ -136,17 +168,7 @@ class ReportsView(View):
             height=300 + (len(project_data) * 70),
             yaxis=dict(ticklen=100),  # add more space between ticks
         )
-        # Convert the figure to HTML
+
         graph_html_project_wise = fig.to_html(include_plotlyjs="cdn")
 
-        ###################################################
-        # Render the template with the graphs
-        return render(
-            request,
-            "FinanceManagementApp/reports.html",
-            {
-                "graph_html_project_wise": graph_html_project_wise,
-                "graph_html_this_year_expense": this_year_expense_html,
-                "graph_html_this_year_income": this_year_income_html,
-            },
-        )
+        return graph_html_project_wise
