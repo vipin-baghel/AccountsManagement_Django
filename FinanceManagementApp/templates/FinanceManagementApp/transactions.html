@@ -35,7 +35,7 @@
                 <th>Amount</th>
                 <th>Income/Expense Type</th>
                 <th>Project</th>
-                <th>Description</th>
+                <!-- <th>Description</th> -->
             </tr>
         </thead>
         <tbody>
@@ -46,7 +46,8 @@
                 <td>{{ transaction.amount }}</td>
                 <td>{{ transaction.income_expense_type }}</td>
                 <td>{{ transaction.project.name }}</td>
-                <td>{{ transaction.description }}</td>
+                <!-- <td data-toggle="tooltip" data-placement="top" title="{{ transaction.description }}">{{
+                    transaction.description|truncatechars:10 }}</td> -->
             </tr>
             {% endfor %}
         </tbody>

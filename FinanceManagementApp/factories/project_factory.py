@@ -11,7 +11,7 @@ class ProjectFactory(factory.django.DjangoModelFactory):
         model = Project
 
     name = factory.Sequence("Project{0}".format)
-    description = fake.text()
+
     start_date = fake.date_between(
         start_date=datetime(2023, 1, 1), end_date=datetime(2023, 12, 31)
     )
@@ -25,3 +25,7 @@ class ProjectFactory(factory.django.DjangoModelFactory):
             else None
         )
     )
+
+    @factory.lazy_attribute
+    def description(self):
+        return fake.sentence(nb_words=10)
