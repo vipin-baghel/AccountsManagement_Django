@@ -1,4 +1,4 @@
-name: FinanceApp CD Dev
+name: FinanceApp CI Dev
 
 on:
   push:
@@ -32,6 +32,6 @@ jobs:
     # - name: Run Tests
     #   run: |
     #     python manage.py test
-    - name: Run Server
-      run: |
-        python manage.py runserver 0.0.0.0:8000
+    # - name: Run Server
+    #   run: |
+    #     python manage.py runserver 0.0.0.0:8000
