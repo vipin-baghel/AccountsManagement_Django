@@ -1,4 +1,4 @@
-name: FinanceApp CI Dev
+name: FinanceApp CD Dev
 
 on:
   push:
