@@ -10,28 +10,24 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.13]
-
+    
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+
+    - name: Checkout the repository
+      uses: actions/checkout@v4
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
       with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Apply Migrations 
-      run: | 
-        python manage.py makemigrations 
-        python manage.py migrate
-    # - name: Run Tests
-    #   run: |
-    #     python manage.py test
-    # - name: Run Server
-    #   run: |
-    #     python manage.py runserver 0.0.0.0:8000
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: vipin1705/finanace_app:latest
+
+      
