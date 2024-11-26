@@ -17,21 +17,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Apply Migrations 
-      run: | 
-        python manage.py makemigrations 
-        python manage.py migrate
-    # - name: Run Tests
-    #   run: |
-    #     python manage.py test
-    # - name: Run Server
-    #   run: |
-    #     python manage.py runserver 0.0.0.0:8000
+    
+    - name: Login to DockerHub
+      env:
+        DOCKER_USENAME : ${{secrets.DOCKER_USENAME}}
+        DOCKER_PASSWORD : ${{secrets.DOCKER_PASSWORD}}
+      run: docker login -u $DOCKER_USENAME -p $DOCKER_PASSWORD
+
+    - name: Build Docker Image
+      run: docker build -t finance_app .
+
+    - name: Push to DockerHub
+      run : docker push vipin1705/finanace_app:latest
+    
+      
