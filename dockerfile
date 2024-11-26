@@ -19,8 +19,14 @@ ENV DJANGO_SUPERUSER_PASSWORD=admin
 RUN python manage.py makemigrations 
 RUN python manage.py migrate 
 RUN python manage.py createsuperuser --noinput
+
+# Generate initial data
 RUN python manage.py generate_projects
 RUN python manage.py generate_transactions
+
+# Collect static files
+RUN python manage.py collectstatic
+
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
@@ -29,7 +35,5 @@ EXPOSE 8000
 ENV PYTHONUNBUFFERED=1
 
 # Run the  server 
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
-# Run the Gunicorn server 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "FinanceManagementProject.wsgi:application"]

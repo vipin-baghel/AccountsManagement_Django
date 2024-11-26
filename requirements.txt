@@ -2,4 +2,4 @@ django
 django-unfold
 factory-boy
 plotly
-gunicorn
+django-import-export

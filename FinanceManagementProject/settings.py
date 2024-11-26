@@ -20,6 +20,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "unfold",
+    'unfold.contrib.import_export',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -28,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "FinanceManagementApp",
+    "import_export",
 ]
 
 MIDDLEWARE = [
@@ -109,6 +111,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
