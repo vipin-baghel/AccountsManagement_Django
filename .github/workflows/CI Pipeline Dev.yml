@@ -28,6 +28,6 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: vipin1705/finanace_app:latest
+        tags: vipin1705/finance_app:latest
 
       
