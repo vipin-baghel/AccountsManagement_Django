@@ -1,9 +1,29 @@
-version: '3.8'
-
 services:
-  web:
+
+  db_server:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web_app:
     build: .
     volumes:
       - .:/app
     ports:
       - "8000:8000"
+    depends_on:
+      - db_server
+    env_file:
+      - .env
+    entrypoint: [ "/app/start-server.sh" ]
+
+volumes:
+  postgres_data:

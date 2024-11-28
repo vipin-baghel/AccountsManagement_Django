@@ -3,3 +3,5 @@ django-unfold
 factory-boy
 plotly
 django-import-export
+python-dotenv
+psycopg2-binary
