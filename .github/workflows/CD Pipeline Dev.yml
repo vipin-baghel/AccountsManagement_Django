@@ -6,17 +6,17 @@ on:
     types: ["completed"]
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
     
     steps:
 
     - name: Pull image from DockerHub
-      run: sudo docker pull vipin1705/finanace_app:latest
+      run: sudo docker pull vipin1705/finance_app:latest
 
     - name: Delete old containers
-      run: sudo docker rm -f finanace_app-container || true
+      run: sudo docker rm -f finance_app-container || true
 
     - name: Run new container
       run: sudo docker run -d -p 8000:8000 --name finanace_app-container vipin1705/finanace_app:latest
