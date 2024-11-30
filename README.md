@@ -15,9 +15,11 @@ This project provides a web application for managing projects, transactions, and
 ## Demo 
 You can access a live demo of the application at: [Demo URL](http://ec2-13-201-81-221.ap-south-1.compute.amazonaws.com:8000/) 
 
-Use the following credentials to access the admin panel for demo app:  
+Use the following credentials to access the admin panel for live demo app:  
 - **Username**: `admin` 
 - **Password**: `admin`
+
+Watch a video demonstration of the application on YouTube: [YouTube Video Demo](https://www.youtube.com/watch?v=wZV9vdH9Lls)
 
 ## Setup and Run with Docker Compose
 
