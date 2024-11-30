@@ -12,6 +12,13 @@ This project provides a web application for managing projects, transactions, and
 * Transaction management: Create, update, and delete transactions (income and expenses) for each project.
 * Reporting: Generate reports for each project, including income, expenses, and profit and various insights.
 
+## Demo 
+You can access a live demo of the application at: [Demo URL](http://ec2-13-201-81-221.ap-south-1.compute.amazonaws.com:8000/) 
+
+Use the following credentials to access the admin panel for demo app:  
+- **Username**: `admin` 
+- **Password**: `admin`
+
 ## Setup and Run with Docker Compose
 
 Follow these steps to set up and run the project using Docker Compose.
